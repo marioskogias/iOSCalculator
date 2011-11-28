@@ -15,6 +15,8 @@
 @implementation CalculatorBrain
 @synthesize operandStack = _operandStack;
 @synthesize piPressed = _piPressed;
+@synthesize coma = _coma;
+
 
 - (NSMutableArray *) operandStack
 {
@@ -28,6 +30,7 @@
 {
     NSNumber *operandObject = [NSNumber numberWithDouble:operand];
     [self.operandStack addObject:operandObject];
+    self.coma = NO;
 }
 
 -(double) popOperand 

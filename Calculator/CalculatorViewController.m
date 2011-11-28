@@ -59,4 +59,12 @@ else {
 
    
 }
+- (IBAction)comaPressed 
+{
+    if ((self.userIsInTheMiddleOfEnteringANumber) && (!self.brain.coma)) 
+    {
+        self.display.text = [self.display.text stringByAppendingString:@"."];
+        self.brain.coma = YES;
+    }
+}
 @end

@@ -10,6 +10,7 @@
 
 @interface CalculatorBrain : NSObject
 @property (nonatomic) BOOL piPressed;
+@property (nonatomic) BOOL coma;
 
 -(void) pushOperand: (double)operand;
 -(double) performOperation: (NSString *) operation;
