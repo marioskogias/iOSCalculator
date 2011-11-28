@@ -80,4 +80,11 @@
     
     
 }
+
+-(void) clearAll
+{
+    [self.operandStack removeAllObjects];
+    self.piPressed = NO;
+    self.coma = NO;
+}
 @end

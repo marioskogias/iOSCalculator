@@ -15,4 +15,5 @@
 -(void) pushOperand: (double)operand;
 -(double) performOperation: (NSString *) operation;
 -(void) piCalculate;
+-(void) clearAll;
 @end

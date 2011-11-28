@@ -18,6 +18,7 @@
 @implementation CalculatorViewController
 
 @synthesize display;
+@synthesize display2;
 @synthesize brain = _brain;
 @synthesize userIsInTheMiddleOfEnteringANumber;
 
@@ -31,16 +32,18 @@
     NSString * digit = [sender currentTitle];
     if (self.userIsInTheMiddleOfEnteringANumber) {
     self.display.text = [self.display.text stringByAppendingString:digit];
-    } else {
+        } else {
         self.display.text = digit;
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
+    self.display2.text = [self.display2.text stringByAppendingString:digit];
 }
 - (IBAction)enterPressed 
 {   if (self.brain.piPressed) self.brain.piPressed = NO;
 else {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
+    self.display2.text = [self.display2.text stringByAppendingString:@" "];
     }
 }
 
@@ -51,10 +54,13 @@ else {
     NSString *operation = [sender currentTitle];
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g",result];
+    self.display2.text = [self.display2.text stringByAppendingString:operation];
+    self.display2.text = [self.display2.text stringByAppendingString:@" "];
 }
 - (IBAction)piPressed {
     if (self.userIsInTheMiddleOfEnteringANumber) [self enterPressed];
     self.display.text = [NSString stringWithString:@"π" ];
+    self.display2.text = [self.display2.text stringByAppendingString:@"π "];
     [self.brain piCalculate];
 
    
@@ -64,7 +70,15 @@ else {
     if ((self.userIsInTheMiddleOfEnteringANumber) && (!self.brain.coma)) 
     {
         self.display.text = [self.display.text stringByAppendingString:@"."];
+        self.display2.text = [self.display2.text stringByAppendingString:@"."];
         self.brain.coma = YES;
     }
 }
+
+- (IBAction)clear {
+    self.display.text = @"0";
+    self.display2.text = @"";
+    [self.brain clearAll];
+}
+
 @end
