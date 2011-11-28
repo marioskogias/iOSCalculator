@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface CalculatorBrain : NSObject
+@property (nonatomic) BOOL piPressed;
 
 -(void) pushOperand: (double)operand;
 -(double) performOperation: (NSString *) operation;
+-(void) piCalculate;
 @end

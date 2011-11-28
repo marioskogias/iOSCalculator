@@ -37,9 +37,11 @@
     }
 }
 - (IBAction)enterPressed 
-{
+{   if (self.brain.piPressed) self.brain.piPressed = NO;
+else {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
+    }
 }
 
 - (IBAction)operationPressed:(UIButton *)sender 
@@ -49,5 +51,12 @@
     NSString *operation = [sender currentTitle];
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g",result];
+}
+- (IBAction)piPressed {
+    if (self.userIsInTheMiddleOfEnteringANumber) [self enterPressed];
+    self.display.text = [NSString stringWithString:@"π" ];
+    [self.brain piCalculate];
+
+   
 }
 @end
