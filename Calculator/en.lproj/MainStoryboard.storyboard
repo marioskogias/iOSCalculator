@@ -344,7 +344,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.66265060240963858" green="1" blue="0.32530120481927705" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.13901503909999999" green="0.0027472579380000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
                         <outlet property="display" destination="vcL-fb-3ll" id="KaU-Vw-dyS"/>
