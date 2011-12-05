@@ -11,9 +11,17 @@
 @interface CalculatorBrain : NSObject
 @property (nonatomic) BOOL piPressed;
 @property (nonatomic) BOOL coma;
+@property (nonatomic, readonly) id program;
 
 -(void) pushOperand: (double)operand;
 -(double) performOperation: (NSString *) operation;
 -(void) piCalculate;
 -(void) clearAll;
+
++ (NSString *)descriptionOfProgram:(id)program;
++ (double)runProgram:(id)program;
+
 @end
+
+
+
