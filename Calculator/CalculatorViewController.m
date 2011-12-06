@@ -36,15 +36,22 @@
         self.display.text = digit;
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
-    self.display2.text = [self.display2.text stringByAppendingString:digit];
+    if (self.brain.waitingVariable==nil) self.display2.text = [self.display2.text stringByAppendingString:digit];
 }
 - (IBAction)enterPressed 
-{   if (self.brain.piPressed) self.brain.piPressed = NO;
+{   
+    if (self.brain.waitingVariable!=nil)
+    {
+        [self.brain addVariable:[self.display.text doubleValue]];
+        self.userIsInTheMiddleOfEnteringANumber=NO;
+    } else {
+    if (self.brain.piPressed) self.brain.piPressed = NO;
 else {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.display2.text = [self.display2.text stringByAppendingString:@" "];
     }
+}
 }
 
 - (IBAction)operationPressed:(UIButton *)sender 
@@ -78,7 +85,29 @@ else {
 - (IBAction)clear {
     self.display.text = @"0";
     self.display2.text = @"";
+    self.userIsInTheMiddleOfEnteringANumber=NO;
     [self.brain clearAll];
 }
 
+- (IBAction)variable:(id)sender 
+{
+    if (!(self.brain.usingVariables))
+    {
+        self.display.text = [NSString stringWithString:@"Please enter the variable's value"];
+        self.brain.waitingVariable = [sender currentTitle];
+
+    } else
+    {
+        if ([[CalculatorBrain variablesUsedInProgram:self.brain.program] containsObject:[sender currentTitle]])
+            [self.brain performOperation:[sender currentTitle]];
+        else
+        {
+            self.display.text = [NSString stringWithString:@"Please enter the variable's value"];
+            self.brain.waitingVariable = [sender currentTitle];
+        }
+    }
+    self.display2.text = [self.display2.text stringByAppendingString:[sender currentTitle]];
+        self.display2.text = [self.display2.text stringByAppendingString:@" "];
+}   
+    
 @end
