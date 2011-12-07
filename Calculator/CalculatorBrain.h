@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface CalculatorBrain : NSObject
+
 @property (nonatomic) BOOL piPressed;
 @property (nonatomic) BOOL coma;
 @property (nonatomic) BOOL usingVariables;
 @property (nonatomic, readonly) id program;
 @property (nonatomic, strong) NSMutableArray *programStack;
-@property (nonatomic,strong) NSString * waitingVariable;
 @property (nonatomic,strong) NSMutableDictionary * variableValues;
 
 
@@ -22,7 +22,7 @@
 -(double) performOperation: (NSString *) operation;
 -(void) piCalculate;
 -(void) clearAll;
--(void) addVariable:(double) value;
+-(void) addVariable:(NSString *) var;
 
 
 + (NSString *)descriptionOfProgram:(id)program;

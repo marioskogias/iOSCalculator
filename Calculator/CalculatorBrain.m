@@ -17,7 +17,7 @@
 @synthesize piPressed = _piPressed;
 @synthesize coma = _coma;
 @synthesize usingVariables = _usingVariables;
-@synthesize waitingVariable = _waitingVariable;
+
 
 - (NSMutableArray *)programStack
 {
@@ -125,20 +125,17 @@
     self.piPressed = NO;
     self.coma = NO;
     self.usingVariables = NO;
-    self.waitingVariable = nil;
 
-    
 }
 
 @synthesize variableValues = _variableValues;
 
--(void) addVariable:(double)value
+-(void) addVariable:(NSString *) var;
 {   
     if (!(self.variableValues)) self.variableValues = [NSMutableDictionary dictionary];
-    NSNumber * number = [NSNumber numberWithDouble:value];
-    [self.variableValues setObject:number forKey:self.waitingVariable];
-    [self.programStack addObject:self.waitingVariable];
-    self.waitingVariable = nil;
+    NSNumber * number = [NSNumber numberWithDouble:0];
+    [self.variableValues setObject:number forKey:var];
+    [self.programStack addObject:var];
     self.usingVariables = YES;
 }
 
