@@ -64,6 +64,7 @@ else {
     self.display2.text = [self.display2.text stringByAppendingString:operation];
     self.display2.text = [self.display2.text stringByAppendingString:@" "];
 }
+
 - (IBAction)piPressed {
     if (self.userIsInTheMiddleOfEnteringANumber) [self enterPressed];
     self.display.text = [NSString stringWithString:@"π" ];

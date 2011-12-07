@@ -89,20 +89,25 @@
 + (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues
 {
     NSMutableArray *stack;
-    stack = [program mutableCopy];
-    int i;
     if ([program isKindOfClass:[NSArray class]]) {
+        stack = [program mutableCopy];
         
-        for (i=1;i<=[stack count];i++)
+        int i;
+        int size = [stack count];
+        if ([CalculatorBrain variablesUsedInProgram:stack])
+                
         {
-            if (([stack objectAtIndex:i-1]==@"a") || ([stack objectAtIndex:i-1]==@"b") || ([stack objectAtIndex:i-1]==@"c"))
-            [stack insertObject:[variableValues objectForKey:[stack objectAtIndex:i-1]] atIndex:i-1];
-           
+        for (i=0;i<=(size -1);i++)
+            {   
+                if ([[CalculatorBrain variablesUsedInProgram:stack] containsObject:[stack objectAtIndex:i]])
+                [stack replaceObjectAtIndex:i withObject:[variableValues objectForKey:[stack objectAtIndex:i]]];
+            }
         }
-    
-    
+        
+        
     }
-    return [self popOperandOffProgramStack:stack];
+    
+ return [self popOperandOffProgramStack:stack];   
 }
 
 -(void) piCalculate
@@ -141,19 +146,22 @@
 +(NSSet *) variablesUsedInProgram:(id)program
 { 
     NSSet * usedVariablesSet;
-    NSMutableArray* temp;
+    NSMutableSet* set=[[NSMutableSet alloc]initWithCapacity:0];
+    int size = [program count];
+    int i;
     
-    for (NSString *string in program) {
-        if ((string==@"a") || (string==@"b") || (string!=@"c"))
-        {
-            [temp addObject:string]; 
-            
-        };
+    for (i=0;i<=(size-1);i++) {
+        id temp = [program objectAtIndex:i];
+        if ([temp isKindOfClass:[NSString class]])
+            if ([temp isEqualToString:@"a"] || [temp isEqualToString:@"b"] || [temp isEqualToString:@"c"])
+                [set addObject:temp]; 
     }
     
-    NSArray * temp2 = [temp copy];
-    usedVariablesSet = [NSSet setWithArray:temp2];
-    return usedVariablesSet;
+    
+        usedVariablesSet = [set copy];
+    if ([usedVariablesSet count] == 0) return nil;
+    else return usedVariablesSet;
+        
 }
     
 @end
