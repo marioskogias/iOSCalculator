@@ -23,8 +23,10 @@
 -(void) piCalculate;
 -(void) clearAll;
 -(void) addVariable:(NSString *) var;
+-(void) setDictionary:(NSArray *)values; 
+-(void) undo;
 
-
++ (NSString *)descriptionOfTopOperand:(NSMutableArray *)stack;
 + (NSString *)descriptionOfProgram:(id)program;
 + (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues;
 + (NSSet *) variablesUsedInProgram:(id)program;

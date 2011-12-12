@@ -30,9 +30,56 @@
     return [self.programStack copy];
 }
 
++(id) descriptionOfTopOperand: (NSMutableArray *)stack
+{  
+    NSString * result = [NSString new];
+
+    
+    id topStack = [stack lastObject];
+
+        
+    if (topStack) [stack removeLastObject];
+    
+        if ([topStack isKindOfClass:[NSNumber class]]) 
+        result = [topStack stringValue];
+           
+    
+        else if ([topStack isKindOfClass:[NSString class]])
+        {
+            if ([topStack isEqualToString:@"sin"] || [topStack isEqualToString:@"cos"] || [topStack isEqualToString:@"sqrt"])
+                result = [NSString stringWithFormat:@"%@(%@)",topStack, [CalculatorBrain descriptionOfTopOperand:stack]];
+            else if ([topStack isEqualToString:@"+"] || [topStack isEqualToString:@"*"])
+                result = [NSString stringWithFormat:@"(%@%@%@)", [CalculatorBrain descriptionOfTopOperand:stack], topStack, [CalculatorBrain descriptionOfTopOperand:stack]];
+            else if ([topStack isEqualToString:@"-"] || [topStack isEqualToString:@"/"])
+            {
+            NSString * operand = topStack;
+            NSString *second = [CalculatorBrain descriptionOfTopOperand:stack];
+            NSString *first = [CalculatorBrain descriptionOfTopOperand:stack];
+            result = [NSString stringWithFormat:@"(%@%@%@)",first,operand,second];
+            }
+            else result = topStack;
+        
+    
+        }
+    
+        return result;
+    
+}
+
 + (NSString *)descriptionOfProgram:(id)program
-{
-    return @"Implement this in Homework #2";
+{   NSString * result=[NSString new];
+    NSMutableArray *stack;
+    if ([program isKindOfClass:[NSArray class]]) {
+        stack = [program mutableCopy];
+        result = [CalculatorBrain descriptionOfTopOperand:stack];
+        
+            }
+    
+    while ([stack count]>0)
+        result=[result stringByAppendingFormat:@",%@",[CalculatorBrain descriptionOfTopOperand:stack]];
+    
+    
+    return result;
 }
 
 - (void)pushOperand:(double)operand
@@ -80,7 +127,8 @@
             result = sin([self popOperandOffProgramStack:stack]);
         } else if ([operation isEqualToString:@"cos"]) {
             result = cos([self popOperandOffProgramStack:stack]);
-        }
+        } else if ([operation isEqualToString:@"π"])
+            result = acos(-1.0);
     }
     
     return result;
@@ -112,8 +160,8 @@
 
 -(void) piCalculate
 {
-    double pi = acos(-1.0);
-    [self pushOperand:pi];
+    //double pi = acos(-1.0);
+    [self.programStack addObject:@"π"];
     self.piPressed = YES;
     
     
@@ -125,6 +173,7 @@
     self.piPressed = NO;
     self.coma = NO;
     self.usingVariables = NO;
+    [self.variableValues removeAllObjects];
 
 }
 
@@ -134,6 +183,7 @@
 {   
     if (!(self.variableValues)) self.variableValues = [NSMutableDictionary dictionary];
     NSNumber * number = [NSNumber numberWithDouble:0];
+    if ([self.variableValues objectForKey:var]==nil)
     [self.variableValues setObject:number forKey:var];
     [self.programStack addObject:var];
     self.usingVariables = YES;
@@ -160,7 +210,23 @@
     else return usedVariablesSet;
         
 }
+
+-(void) setDictionary:(NSArray *)values 
+{
+    if (!(self.variableValues)) self.variableValues = [NSMutableDictionary dictionary];
+
+    [self.variableValues setObject:[values objectAtIndex:0] forKey:@"a"];
+    [self.variableValues setObject:[values objectAtIndex:1] forKey:@"b"];
+    [self.variableValues setObject:[values objectAtIndex:2] forKey:@"c"];
     
+    
+}
+/*
+-(void) undo 
+{
+    if ()
+}
+*/    
 @end
 
 
