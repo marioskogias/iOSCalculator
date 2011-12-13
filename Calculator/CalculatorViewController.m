@@ -122,16 +122,15 @@ else {
     if (self.userIsInTheMiddleOfEnteringANumber) 
     {
         if ([self.display.text length] > 1)
-        self.display.text = [self.display.text substringToIndex:[self.display.text length]];
+            self.display.text = [self.display.text substringToIndex:[self.display.text length]-1];
         else self.userIsInTheMiddleOfEnteringANumber=NO;
     }
     
-    
+    if (!self.userIsInTheMiddleOfEnteringANumber)
+    {   
         [self.brain undo];
         self.display.text =  [NSString stringWithFormat:@"%g", [CalculatorBrain runProgram:self.brain.program usingVariableValues:self.brain.variableValues]];
         self.display2.text = [CalculatorBrain descriptionOfProgram:self.brain.program];
-
-        
     }
 }
     

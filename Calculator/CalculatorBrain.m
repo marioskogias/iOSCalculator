@@ -221,12 +221,12 @@
     
     
 }
-/*
+
 -(void) undo 
 {
-    if ()
+    [self.programStack removeLastObject];
 }
-*/    
+    
 @end
 
 
